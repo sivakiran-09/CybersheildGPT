@@ -1,0 +1,26 @@
+HIPAA Breach Notification Rule
+
+The HIPAA Breach Notification Rule requires covered entities to notify affected individuals
+following the discovery of a breach of unsecured protected health information (PHI). Notification
+must generally occur within 60 days of discovery. If a breach affects 500 or more individuals in a
+single jurisdiction, the covered entity must also notify the Department of Health and Human Services
+and, in many cases, prominent media outlets in that jurisdiction.
+
+A breach is defined as the acquisition, access, use, or disclosure of PHI in a manner not permitted
+under the Privacy Rule, which compromises the security or privacy of the PHI. Certain exceptions
+apply, including unintentional access by a workforce member acting in good faith and within the
+scope of authority.
+
+Minimum Necessary Standard
+
+Covered entities and their workforce members must limit PHI access, use, and disclosure to the
+minimum necessary to accomplish the intended purpose. Bulk or wholesale access to patient records
+that is not tied to a specific treatment, payment, or operations need may itself constitute a
+violation, independent of any subsequent data exfiltration.
+
+Incident Response Expectations
+
+Organizations are expected to have a documented incident response plan that includes identification,
+containment, eradication, recovery, and post-incident review. For incidents involving PHI, the
+response plan should integrate directly with breach-notification timelines and the organization's
+privacy officer.

@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% block title %}CyberShield GPT — Dashboard{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <h1>Security operations</h1>
+        <p class="page-subtitle">EHR &amp; identity monitoring — {{ incident.hospital }}</p>
+    </div>
+    <div class="header-tools">
+        <label for="scenarioSelect">Simulation scenario</label>
+        <select id="scenarioSelect">
+            {% for scenario in scenarios %}
+            <option value="{{ scenario.id }}">{{ scenario.label }}</option>
+            {% endfor %}
+        </select>
+        <div class="clock" id="clock">--:--:--</div>
+    </div>
+</div>
+
+<div class="alert-banner" id="alertBanner" style="display:none;">
+    <div class="alert-icon">⚠</div>
+    <div class="alert-body">
+        <div class="alert-top">
+            <span class="badge-critical" id="alertSeverity">CRITICAL</span>
+            <strong id="alertTitle">—</strong>
+            <span class="active-dot">● Active incident</span>
+        </div>
+        <div class="alert-meta" id="alertMeta">—</div>
+        <p class="alert-desc" id="alertDesc"></p>
+    </div>
+</div>
+
+<div class="stat-grid">
+    <div class="stat-card">
+        <div class="stat-label" id="statRecordsLabel">Patient records accessed</div>
+        <div class="stat-value" id="statRecords">0</div>
+        <div class="stat-sub" id="statRecordsSub">baseline for this role: ~40/day</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-label" id="statExportedLabel">Data exported</div>
+        <div class="stat-value" id="statExported">0 GB</div>
+        <div class="stat-sub" id="statExportedSub">single EHR export job</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-label">Outbound transfer</div>
+        <div class="stat-value" id="statOutbound">—</div>
+        <div class="stat-sub">destination outside hospital network</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-label">Time to detection</div>
+        <div class="stat-value" id="statDetection">—</div>
+        <div class="stat-sub">from first failed login to alert</div>
+    </div>
+</div>
+
+<div class="lower-grid">
+    <div class="panel chain-panel">
+        <div class="panel-header">
+            <h2>Attack chain</h2>
+            <span class="panel-tag">reconstructed from correlated logs</span>
+        </div>
+        <div class="chain" id="chain">
+            <p class="chain-empty">Waiting for events...</p>
+        </div>
+    </div>
+
+    <div class="panel response-panel">
+        <div class="panel-header">
+            <h2>Recommended response</h2>
+            <span class="panel-tag">auto-generated</span>
+        </div>
+        <ul class="checklist" id="checklist">
+            <li class="checklist-empty">No recommendations yet — run the simulation.</li>
+        </ul>
+    </div>
+</div>
+
+<button id="restartBtn">▶ Run Simulation</button>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+{% endblock %}

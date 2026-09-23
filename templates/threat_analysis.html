@@ -1,0 +1,204 @@
+{% extends "base.html" %}
+
+{% block title %}CyberShield GPT — Threat Analysis{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+    <div>
+        <h1>Threat analysis</h1>
+        <p class="page-subtitle">
+            Attack stages mapped to MITRE ATT&amp;CK-style tactics —
+            {{ incident.account }}
+        </p>
+    </div>
+</div>
+
+
+<!-- =========================
+     THREAT STATISTICS
+     ========================= -->
+
+<div class="stat-grid"
+     style="grid-template-columns: repeat(2, 1fr); margin-bottom: 24px;">
+
+    <!-- Overall severity -->
+    <div class="stat-card">
+        <div class="stat-label">
+            Overall threat severity
+        </div>
+
+        <div class="stat-value">
+            {{ analysis.overall_score }} / 10
+        </div>
+
+        <div class="stat-sub">
+            averaged across non-baseline stages
+        </div>
+    </div>
+
+
+    <!-- Distinct tactics -->
+    <div class="stat-card">
+        <div class="stat-label">
+            Distinct tactics observed
+        </div>
+
+        <div class="stat-value">
+            {{ analysis.tactic_counts|length }}
+        </div>
+
+        <div class="stat-sub">
+            {{ analysis.tactic_counts.keys()|join(', ') }}
+        </div>
+    </div>
+
+</div>
+
+
+<!-- =========================
+     SEVERITY CHART
+     ========================= -->
+
+<div class="panel" style="margin-bottom: 22px;">
+
+    <div class="panel-header">
+        <h2>Severity by stage</h2>
+    </div>
+
+    <div class="severity-chart" role="img" aria-label="Severity score for each attack stage">
+        {% for r in analysis.rows %}
+        <div class="severity-chart-row">
+            <div class="severity-chart-label" title="{{ r.stage_title }}">{{ r.stage_title }}</div>
+            <div class="severity-chart-track">
+                {% if r.severity >= 8 %}
+                    {% set chart_class = "severity-high" %}
+                    {% set width_class = "severity-width-high" %}
+                {% elif r.severity >= 5 %}
+                    {% set chart_class = "severity-medium" %}
+                    {% set width_class = "severity-width-medium" %}
+                {% elif r.severity >= 1 %}
+                    {% set chart_class = "severity-low" %}
+                    {% set width_class = "severity-width-low" %}
+                {% else %}
+                    {% set chart_class = "severity-baseline" %}
+                    {% set width_class = "severity-width-baseline" %}
+                {% endif %}
+                <div class="severity-chart-fill {{ chart_class }} {{ width_class }}"></div>
+            </div>
+            <span class="severity-chart-value">{{ r.severity }}/10</span>
+        </div>
+        {% endfor %}
+    </div>
+
+</div>
+
+
+<!-- =========================
+     TACTIC / TECHNIQUE TABLE
+     ========================= -->
+
+<div class="panel">
+
+    <div class="panel-header">
+        <h2>Tactic / technique mapping</h2>
+    </div>
+
+
+    <table class="log-table">
+
+        <thead>
+            <tr>
+                <th>Stage</th>
+                <th>Tactic</th>
+                <th>Technique</th>
+                <th>Severity</th>
+            </tr>
+        </thead>
+
+
+        <tbody>
+
+            {% for r in analysis.rows %}
+
+            <tr>
+
+                <!-- Stage -->
+                <td>
+                    {{ r.stage_title }}
+
+                    <br>
+
+                    <span class="log-time">
+                        {{ r.elapsed }}
+                    </span>
+                </td>
+
+
+                <!-- Tactic -->
+                <td>
+                    {{ r.tactic }}
+                </td>
+
+
+                <!-- Technique -->
+                <td>
+                    {{ r.technique_id }} — {{ r.technique }}
+                </td>
+
+
+                <!-- Severity -->
+                <td>
+
+                    <div class="severity-bar-track">
+
+                        {% if r.severity >= 8 %}
+
+                            <div
+                                class="severity-bar-fill severity-high"
+                                style="width: 80%;">
+                            </div>
+
+                        {% elif r.severity >= 5 %}
+
+                            <div
+                                class="severity-bar-fill severity-medium"
+                                style="width: 50%;">
+                            </div>
+
+                        {% elif r.severity >= 1 %}
+
+                            <div
+                                class="severity-bar-fill severity-low"
+                                style="width: 20%;">
+                            </div>
+
+                        {% else %}
+
+                            <div
+                                class="severity-bar-fill severity-baseline"
+                                style="width: 0%;">
+                            </div>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <span class="log-time">
+                        {{ r.severity }}/10
+                    </span>
+
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>
+
+{% endblock %}

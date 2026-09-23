@@ -1,0 +1,17 @@
+Insider Threat Program
+
+Not all data breaches originate from external attackers. Insider threats include malicious
+employees exfiltrating data for personal gain, as well as negligent staff who mishandle PHI
+without malicious intent.
+
+Behavioral indicators of a potential insider threat include accessing records far outside an
+employee's normal role or patient assignment, downloading unusually large volumes of data, or
+accessing systems at atypical hours without a documented business reason.
+
+User and Entity Behavior Analytics (UEBA) tools can establish a baseline of normal behavior per
+role and flag statistically significant deviations, such as an admin account suddenly querying
+the entire patient database when its typical usage is under fifty records per day.
+
+Distinguishing a compromised account from a genuine insider threat requires correlating the
+anomalous activity with authentication context, such as login location, device fingerprint, and
+whether the activity followed a suspicious authentication event like a brute-force attempt.

@@ -1,0 +1,18 @@
+Incident Response Plan
+
+An effective incident response plan follows six phases: preparation, identification,
+containment, eradication, recovery, and lessons learned.
+
+Preparation involves maintaining an up-to-date asset inventory, defined escalation contacts,
+and a tested communication plan. Identification requires monitoring tools capable of detecting
+anomalous behavior, such as unusual login patterns or large data transfers.
+
+During containment, responders should isolate affected systems without destroying evidence.
+Short-term containment might involve network segmentation, while long-term containment could
+include patching vulnerabilities or rebuilding compromised systems.
+
+Eradication removes the root cause, such as malware or an attacker's persistence mechanism.
+Recovery restores systems to normal operation with enhanced monitoring to detect any recurrence.
+
+The lessons-learned phase should occur within two weeks of incident closure and should update
+the incident response plan itself based on gaps identified during the response.

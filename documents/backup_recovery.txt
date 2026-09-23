@@ -1,0 +1,17 @@
+Backup and Disaster Recovery Policy
+
+Critical systems, including the EHR platform, must maintain daily backups with a minimum
+retention of 30 days. At least one backup copy must be stored offline or in an immutable format
+to protect against ransomware that specifically targets connected backup infrastructure.
+
+Recovery Time Objective (RTO) for the EHR system should not exceed four hours, given the
+patient-safety impact of prolonged clinical system downtime. Recovery Point Objective (RPO)
+should not exceed one hour of data loss for critical clinical systems.
+
+Backup integrity should be tested through regular restoration drills, not just verified via
+successful backup job completion logs, since a backup that cannot be restored provides no real
+protection.
+
+Disaster recovery plans should account for scenarios beyond technical failure, including
+extended ransomware recovery timelines, and should define clear decision authority for
+declaring a disaster and initiating failover procedures.

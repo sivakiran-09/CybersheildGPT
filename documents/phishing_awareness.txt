@@ -1,0 +1,19 @@
+Phishing Awareness and Prevention
+
+Phishing remains the most common initial access vector for healthcare breaches. Attackers often
+impersonate IT support, vendors, or internal executives to trick staff into revealing
+credentials or executing malicious attachments.
+
+Warning signs include urgent or threatening language, requests to bypass normal approval
+processes, mismatched sender domains, and unexpected attachments or links. Staff should be
+trained to verify unusual requests through a separate communication channel rather than
+replying directly to the suspicious message.
+
+Simulated phishing campaigns should be run quarterly, with additional targeted training for
+staff who repeatedly fall for simulations. Clinical staff with access to patient records are a
+particularly high-value target and should receive role-specific training examples relevant to
+healthcare-themed phishing lures.
+
+Any credential entered into a suspected phishing page should be treated as compromised
+immediately, triggering a forced password reset and review of recent account activity for signs
+of unauthorized access.

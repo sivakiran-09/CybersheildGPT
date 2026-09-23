@@ -1,0 +1,18 @@
+Network Segmentation Guide for Healthcare Environments
+
+Network segmentation limits the blast radius of a compromised account or device by restricting
+lateral movement between network zones. Clinical devices, such as infusion pumps and imaging
+systems, should reside on a separate VLAN from general administrative workstations.
+
+The EHR database tier should not be directly reachable from end-user workstations; all access
+should route through an application layer that enforces authentication and logging. Firewall
+rules between segments should follow a default-deny posture, explicitly allowing only required
+ports and protocols.
+
+Administrative access to critical systems, including domain controllers and EHR servers, should
+be restricted to a dedicated jump host with multi-factor authentication and full session
+recording. This significantly limits an attacker's ability to pivot from a single compromised
+account to full domain access.
+
+Segmentation should be validated regularly through penetration testing focused specifically on
+lateral movement paths, not just perimeter defenses.

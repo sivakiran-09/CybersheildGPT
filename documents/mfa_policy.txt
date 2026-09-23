@@ -1,0 +1,17 @@
+Multi-Factor Authentication (MFA) Policy
+
+All accounts with administrative privileges, remote access capability, or access to systems
+containing PHI must be protected by multi-factor authentication. This includes EHR
+administrator accounts, VPN access, and cloud management consoles.
+
+Acceptable MFA methods include authenticator apps and hardware security keys. SMS-based
+verification is discouraged due to susceptibility to SIM-swapping attacks, and should only be
+used as a fallback when no stronger method is available.
+
+MFA fatigue attacks, where an attacker repeatedly triggers push notifications hoping the user
+approves one by mistake, should be mitigated through number-matching MFA prompts rather than
+simple approve/deny notifications.
+
+Accounts detected with a high volume of failed login attempts followed by a successful login
+from a new device or location should be flagged for immediate review, even when MFA was
+technically satisfied, since MFA fatigue and social engineering can bypass the control.

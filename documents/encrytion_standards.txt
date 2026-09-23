@@ -1,0 +1,16 @@
+Data Encryption Standards
+
+All PHI at rest must be encrypted using AES-256 or an equivalent industry-standard algorithm.
+This applies to database storage, backup media, and any exported files, including EHR export
+jobs and archived data bundles.
+
+Data in transit must be protected using TLS 1.2 or higher for all connections carrying PHI,
+including connections between internal systems and any third-party integrations. Legacy
+protocols such as SSL 3.0 and TLS 1.0 must be disabled across all systems.
+
+Encryption key management should follow separation of duties, ensuring that personnel with
+access to encrypted data do not also control the encryption keys unilaterally. Keys should be
+rotated on a defined schedule and immediately upon suspected compromise.
+
+Removable media, including USB drives used for data transfer, must use full-disk encryption,
+and their use should be logged and restricted to approved personnel only.

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>{% block title %}CyberShield GPT{% endblock %}</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="app-shell">
+    <aside class="sidebar">
+        <div class="brand">
+            <div class="brand-icon">🛡️</div>
+            <div>
+                <div class="brand-title">CyberShield <span>GPT</span></div>
+                <div class="brand-sub">Hospital SOC console</div>
+            </div>
+        </div>
+
+        <nav class="sidenav">
+            <a href="{{ url_for('index') }}" class="nav-item {{ 'active' if active_page=='dashboard' else '' }}">
+                <span class="nav-icon">📊</span> Dashboard
+            </a>
+            <a href="{{ url_for('access_logs') }}" class="nav-item {{ 'active' if active_page=='access_logs' else '' }}">
+                <span class="nav-icon">📋</span> Access logs
+            </a>
+            <a href="{{ url_for('threat_analysis') }}" class="nav-item {{ 'active' if active_page=='threat_analysis' else '' }}">
+    <span class="nav-icon">🎯</span> Threat analysis
+</a>
+<a href="{{ url_for('threat_detector') }}" class="nav-item {{ 'active' if active_page=='threat_detector' else '' }}">
+    <span class="nav-icon">🔍</span> Threat detector
+</a>
+            <a href="{{ url_for('knowledge_base') }}" class="nav-item {{ 'active' if active_page=='knowledge_base' else '' }}">
+                <span class="nav-icon">📖</span> Knowledge base
+            </a>
+            <a href="{{ url_for('incident_report') }}" class="nav-item {{ 'active' if active_page=='incident_report' else '' }}">
+                <span class="nav-icon">📄</span> Incident report
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="live-status"><span class="live-dot"></span> Live monitoring</div>
+            <div class="user-line">👤 {{ username }} · <a href="{{ url_for('logout') }}">Logout</a></div>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        {% block content %}{% endblock %}
+    </main>
+</div>
+
+{% block scripts %}{% endblock %}
+<div id="chatWidget" class="chat-widget">
+    <button id="chatToggle" class="chat-toggle">💬</button>
+    <div id="chatPanel" class="chat-panel" style="display:none;">
+        <div class="chat-header">
+            <span>🛡️ CyberShield Assistant</span>
+            <button id="chatClose" class="chat-close">✕</button>
+        </div>
+        <div id="chatMessages" class="chat-messages">
+            <div class="chat-msg chat-bot">Hi! Ask me about the current incident, recommended response steps, or anything in the knowledge base.</div>
+        </div>
+        <div class="chat-input-row">
+            <input type="text" id="chatInput" placeholder="Ask a question...">
+            <button id="chatSend">➤</button>
+        </div>
+    </div>
+</div>
+
+<script src="{{ url_for('static', filename='chatbot.js') }}"></script>
+</body>
+</html>

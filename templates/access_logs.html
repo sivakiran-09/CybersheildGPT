@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}CyberShield GPT — Access Logs{% endblock %}
+{% block content %}
+<div class="page-header">
+    <div>
+        <h1>Correlated access log — {{ incident.account }}</h1>
+        <p class="page-subtitle">EHR platform + firewall + DLP</p>
+    </div>
+</div>
+
+<div class="panel">
+    <table class="log-table">
+        <thead>
+            <tr><th>Time</th><th>Source</th><th>Event</th><th>Detail</th></tr>
+        </thead>
+        <tbody>
+            {% for e in entries %}
+            <tr>
+                <td class="log-time">{{ e.time }}</td>
+                <td><span class="src-badge src-{{ e.source|lower|replace('/', '-')|replace(' ', '-') }}">{{ e.source }}</span></td>
+                <td class="log-event">{{ e.event }}</td>
+                <td class="log-detail">{{ e.detail }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

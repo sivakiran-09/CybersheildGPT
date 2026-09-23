@@ -1,0 +1,17 @@
+Ransomware Response Playbook
+
+Ransomware attacks against healthcare organizations often begin with a phishing email or a
+compromised remote access credential. Once inside, attackers typically move laterally through
+the network before encrypting files and demanding payment.
+
+Immediate containment steps include isolating affected systems from the network, disabling
+shared drives, and preserving volatile memory and logs for forensic analysis before powering
+down infected machines. Do not pay the ransom without legal and law enforcement consultation,
+as payment does not guarantee data recovery and may violate sanctions regulations.
+
+Recovery should prioritize restoring from known-clean backups rather than decrypting files with
+attacker-provided tools. Organizations should maintain offline, immutable backups specifically
+to survive ransomware that targets connected backup systems.
+
+Post-incident, conduct a full root-cause analysis to identify the initial access vector and
+close that gap before reconnecting systems to the network.

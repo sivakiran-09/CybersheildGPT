@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% block title %}CyberShield GPT — Threat Detector{% endblock %}
+{% block content %}
+<div class="page-header">
+    <div>
+        <h1>Threat detector</h1>
+        <p class="page-subtitle">Paste a log line, alert, or describe an event — get a live AI-generated classification</p>
+    </div>
+</div>
+
+<div class="panel" style="margin-bottom: 20px;">
+    <textarea id="threatInput" class="threat-textarea" rows="4"
+        placeholder="e.g. 'User admin.jsmith logged in successfully after 42 failed attempts, from IP 203.0.113.44, then downloaded 8GB from the patient database'"></textarea>
+    <button id="analyzeBtn" class="ghost-btn" style="margin-top: 12px;">🔍 Analyze</button>
+</div>
+
+<div id="resultArea"></div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    const input = document.getElementById("threatInput");
+    const btn = document.getElementById("analyzeBtn");
+    const resultArea = document.getElementById("resultArea");
+
+    btn.addEventListener("click", () => {
+        const text = input.value.trim();
+        if (!text) return;
+
+        btn.disabled = true;
+        btn.textContent = "Analyzing...";
+        resultArea.innerHTML = `<p class="chain-empty">Checking local threat indicators...</p>`;
+
+        fetch("/api/classify-threat", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ input: text }),
+        })
+        .then(res => res.json())
+        .then(data => {
+            btn.disabled = false;
+            btn.textContent = "🔍 Analyze";
+
+            if (data.error) {
+                resultArea.innerHTML = `<div class="panel"><p class="kb-warning">Error: ${data.error}</p></div>`;
+                return;
+            }
+
+            const sevPct = (data.severity / 10 * 100).toFixed(0);
+            const sevColor = data.severity >= 8 ? "#ff4d4d" : data.severity >= 5 ? "#ff8a3d" : data.severity >= 1 ? "#ffcc4d" : "#3a4a6b";
+
+            resultArea.innerHTML = `
+                <div class="panel">
+                    <div class="panel-header">
+                        <h2>${data.is_suspicious ? "⚠ Suspicious activity detected" : "✅ No significant threat detected"}</h2>
+                        <span class="panel-tag">confidence: ${data.confidence}</span>
+                    </div>
+                    <div class="stat-grid" style="grid-template-columns: repeat(3, 1fr); margin-bottom: 18px;">
+                        <div class="stat-card">
+                            <div class="stat-label">Attack type</div>
+                            <div class="stat-value" style="font-size:16px;">${data.attack_type}</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-label">MITRE tactic</div>
+                            <div class="stat-value" style="font-size:16px;">${data.mitre_tactic}</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-label">Severity</div>
+                            <div class="stat-value" style="color:${sevColor};">${data.severity}/10</div>
+                        </div>
+                    </div>
+                    <p style="color:#b8c4dc; font-size:13.5px; margin-bottom:16px;">${data.explanation}</p>
+                    <h2 style="font-size:14px; margin-bottom:10px;">Recommended actions</h2>
+                    <ul class="checklist">
+                        ${data.recommended_actions.map(a => `<li><input type="checkbox"><label>${a}</label></li>`).join("")}
+                    </ul>
+                </div>
+            `;
+        })
+        .catch(() => {
+            btn.disabled = false;
+            btn.textContent = "🔍 Analyze";
+            resultArea.innerHTML = `<div class="panel"><p class="kb-warning">Connection error — check that Ollama is running.</p></div>`;
+        });
+    });
+</script>
+{% endblock %}

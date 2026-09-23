@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}CyberShield GPT — Incident Report{% endblock %}
+{% block content %}
+<div class="page-header">
+    <div>
+        <h1>Incident report</h1>
+        <p class="page-subtitle">{{ incident_id }}</p>
+    </div>
+</div>
+
+<div class="report-actions">
+    <button id="downloadBtn">⬇ Download .md</button>
+    <button id="copyBtn">📋 Copy to clipboard</button>
+    <span id="copyStatus" class="copy-status"></span>
+</div>
+
+<div class="panel">
+    <pre id="reportContent" class="report-pre">{{ report_md }}</pre>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    const reportText = document.getElementById("reportContent").textContent;
+    const incidentId = "{{ incident_id }}";
+
+    document.getElementById("downloadBtn").addEventListener("click", () => {
+        const blob = new Blob([reportText], { type: "text/markdown" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = incidentId + ".md";
+        a.click();
+        URL.revokeObjectURL(url);
+    });
+
+    document.getElementById("copyBtn").addEventListener("click", () => {
+        navigator.clipboard.writeText(reportText).then(() => {
+            const status = document.getElementById("copyStatus");
+            status.textContent = "Copied!";
+            setTimeout(() => { status.textContent = ""; }, 2000);
+        });
+    });
+</script>
+{% endblock %}

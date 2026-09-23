@@ -1,0 +1,16 @@
+Third-Party and Vendor Risk Management
+
+Healthcare organizations routinely share PHI with business associates such as billing
+companies, cloud hosting providers, and medical device vendors. Each such relationship requires
+a signed Business Associate Agreement (BAA) under HIPAA before any PHI is shared.
+
+Vendor risk assessments should evaluate the third party's security posture, including their own
+incident history, encryption practices, and access controls. High-risk vendors, such as those
+with direct network connectivity into clinical systems, should undergo annual security reviews.
+
+Any vendor-caused breach of PHI is still the covered entity's regulatory responsibility to
+report under the Breach Notification Rule, making vendor due diligence a direct risk-reduction
+measure, not just a compliance formality.
+
+Vendor remote-access accounts should be time-limited, individually attributable (not shared
+credentials), and subject to the same MFA and logging requirements as internal accounts.

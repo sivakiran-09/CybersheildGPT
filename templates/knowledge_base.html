@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% block title %}CyberShield GPT — Knowledge Base{% endblock %}
+{% block content %}
+<div class="page-header">
+    <div>
+        <h1>Retrieved knowledge</h1>
+        <p class="page-subtitle">TF-IDF retrieval over real documents in your <code>documents/</code> folder</p>
+    </div>
+    <button id="reindexBtn" class="ghost-btn">↻ Reindex documents</button>
+</div>
+
+<div class="kb-status">
+    {% if has_docs %}
+        <span id="kbStatusText">{{ doc_count }} document{{ 's' if doc_count != 1 else '' }} indexed
+        ({{ chunk_total }} chunks) — {{ documents|join(', ') }}</span>
+    {% else %}
+        <span id="kbStatusText" class="kb-warning">
+            No documents found. Add .txt, .md, or .pdf files to the <code>documents/</code> folder
+            in your project, then click "Reindex documents".
+        </span>
+    {% endif %}
+</div>
+
+<input type="text" id="kbSearch" class="kb-search" placeholder="Search your documents — try 'HIPAA', 'breach notification'">
+
+<div class="kb-list" id="kbList"></div>
+<p class="chain-empty" id="kbEmpty" style="display:none;">No matching passages found.</p>
+<p class="chain-empty" id="kbIdle">Type a search term above to retrieve relevant passages from your documents.</p>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    const kbSearch = document.getElementById("kbSearch");
+    const kbList = document.getElementById("kbList");
+    const kbEmpty = document.getElementById("kbEmpty");
+    const kbIdle = document.getElementById("kbIdle");
+    const reindexBtn = document.getElementById("reindexBtn");
+    const kbStatusText = document.getElementById("kbStatusText");
+
+    let debounceTimer = null;
+
+    function renderResults(results) {
+        kbList.innerHTML = "";
+        if (results.length === 0) {
+            kbEmpty.style.display = "block";
+            return;
+        }
+        kbEmpty.style.display = "none";
+        results.forEach(r => {
+            const card = document.createElement("div");
+            card.className = "kb-card";
+            card.innerHTML = `
+                <div class="kb-top">
+                    <span class="kb-tag">${r.source}</span>
+                    <span class="kb-score">match ${(r.score * 100).toFixed(0)}%</span>
+                </div>
+                <p>${r.snippet}</p>
+            `;
+            kbList.appendChild(card);
+        });
+    }
+
+    kbSearch.addEventListener("input", () => {
+        const q = kbSearch.value.trim();
+        clearTimeout(debounceTimer);
+
+        if (!q) {
+            kbList.innerHTML = "";
+            kbEmpty.style.display = "none";
+            kbIdle.style.display = "block";
+            return;
+        }
+        kbIdle.style.display = "none";
+
+        debounceTimer = setTimeout(() => {
+            fetch(`/api/kb-search?q=${encodeURIComponent(q)}`)
+                .then(res => res.json())
+                .then(data => renderResults(data.results));
+        }, 250);
+    });
+
+    reindexBtn.addEventListener("click", () => {
+        reindexBtn.disabled = true;
+        reindexBtn.textContent = "Reindexing...";
+        fetch("/api/kb-reindex", { method: "POST" })
+            .then(res => res.json())
+            .then(data => {
+                kbStatusText.textContent = `${data.doc_count} document(s) indexed (${data.chunk_total} chunks)`;
+                reindexBtn.disabled = false;
+                reindexBtn.textContent = "↻ Reindex documents";
+            });
+    });
+</script>
+{% endblock %}

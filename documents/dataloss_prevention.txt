@@ -1,0 +1,18 @@
+Data Loss Prevention (DLP) Policy
+
+This policy governs the monitoring and control of sensitive data leaving the organization's
+network, including protected health information (PHI), payment data, and internal credentials.
+
+DLP tools should be configured to flag or block large outbound data transfers, particularly to
+unrecognized or newly observed external IP addresses. Email attachments containing patterns
+matching medical record numbers, Social Security numbers, or insurance identifiers should be
+automatically quarantined for review.
+
+Exceptions to automatic blocking require documented business justification and approval from
+the data owner. All DLP alerts must be reviewed within one business day, and alerts involving
+PHI must be escalated to the privacy officer regardless of whether the transfer appears
+legitimate.
+
+Regular tuning of DLP rules is required to reduce false positives while maintaining sensitivity
+to genuine exfiltration patterns, such as archive creation immediately preceding an outbound
+transfer.
